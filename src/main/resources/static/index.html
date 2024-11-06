@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hotel Booking System</title>
+    <script>
+        async function viewRooms() {
+            try {
+                const response = await fetch('/api/bookings/rooms');
+                const rooms = await response.json();
+
+                let roomList = document.getElementById('room-list');
+                roomList.innerHTML = '';
+                rooms.forEach(room => {
+                    roomList.innerHTML += `<li>${room.type} - $${room.cost}</li>`;
+                });
+            } catch (error) {
+                alert('Failed to load rooms');
+            }
+        }
+
+        async function bookRoom() {
+            const roomType = document.getElementById('room-type').value;
+            const paymentMethod = document.getElementById('payment-method').value;
+
+            try {
+                const response = await fetch(`/api/bookings/book?roomType=${roomType}&paymentMethod=${paymentMethod}`, {
+                    method: 'POST'
+                });
+                const result = await response.text();
+                alert(result);
+            } catch (error) {
+                alert('Failed to book room');
+            }
+        }
+
+        async function addRoom() {
+            const roomType = document.getElementById('admin-room-type').value;
+            const roomCost = document.getElementById('admin-room-cost').value;
+
+            try {
+                const response = await fetch('/api/admin/manage/rooms', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ type: roomType, cost: roomCost })
+                });
+                const result = await response.json();
+                alert(`Room added: ${result.type} - $${result.cost}`);
+            } catch (error) {
+                alert('Failed to add room');
+            }
+        }
+    </script>
+</head>
+<body>
+
+<h1>Hotel Booking System</h1>
+
+<section>
+    <h2>Available Rooms</h2>
+    <button onclick="viewRooms()">View Rooms</button>
+    <ul id="room-list"></ul>
+</section>
+
+<section>
+    <h2>Book a Room</h2>
+    <label for="room-type">Room Type:</label>
+    <select id="room-type">
+        <option value="Single">Single</option>
+        <option value="Double">Double</option>
+    </select>
+
+    <label for="payment-method">Payment Method:</label>
+    <select id="payment-method">
+        <option value="creditcard">Credit Card</option>
+        <option value="paypal">PayPal</option>
+    </select>
+
+    <button onclick="bookRoom()">Book Room</button>
+</section>
+
+<section>
+    <h2>Admin - Add Room</h2>
+    <label for="admin-room-type">Room Type:</label>
+    <input type="text" id="admin-room-type" placeholder="e.g., Suite">
+
+    <label for="admin-room-cost">Room Cost:</label>
+    <input type="number" id="admin-room-cost" placeholder="e.g., 200">
+
+    <button onclick="addRoom()">Add Room</button>
+</section>
+
+</body>
+</html>
