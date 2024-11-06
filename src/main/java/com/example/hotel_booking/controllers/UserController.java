@@ -1,5 +1,8 @@
 package com.example.hotel_booking.controllers;
 
+import com.example.hotel_booking.models.payments.PaymentStrategy;
+import com.example.hotel_booking.models.payments.CreditCardPayment;
+import com.example.hotel_booking.models.payments.PayPalPayment;
 import com.example.hotel_booking.models.User;
 import com.example.hotel_booking.models.rooms.Room;
 import com.example.hotel_booking.models.service.UserService;
@@ -50,10 +53,23 @@ public class UserController {
 
     // Book a room
     @PostMapping("/book")
-    public ResponseEntity<String> bookRoom(@RequestParam String roomType, @RequestParam String username) {
-        boolean bookingResult = bookingFacade.bookRoom(roomType, username); // Corrected BookingFacade usage
-        if (bookingResult) {
-            return ResponseEntity.ok("Room booked successfully.");
+    public ResponseEntity<String> bookRoom(
+            @RequestParam String roomType,
+            @RequestParam String username,
+            @RequestParam String paymentMethod) { // New parameter for payment method
+
+        // Determine the PaymentStrategy based on the payment method parameter
+        PaymentStrategy strategy;
+        if ("PayPal".equalsIgnoreCase(paymentMethod)) {
+            strategy = new PayPalPayment();
+        } else {
+            strategy = new CreditCardPayment(); // Default to CreditCardPayment
+        }
+
+        String bookingResult = bookingFacade.bookRoom(roomType, strategy, username);
+
+        if (bookingResult.contains("Booking confirmed")) {
+            return ResponseEntity.ok(bookingResult);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to book the room.");
         }

@@ -2,12 +2,14 @@ package com.example.hotel_booking.repository;
 
 import com.example.hotel_booking.models.User;
 import com.example.hotel_booking.util.DatabaseConnectionManager;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class UserRepository {
 
     private final Connection connection;

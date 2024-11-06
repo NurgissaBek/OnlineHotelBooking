@@ -3,7 +3,9 @@ package com.example.hotel_booking.models.service;
 import com.example.hotel_booking.models.notifications.NotificationService;
 import com.example.hotel_booking.models.payments.PaymentStrategy;
 import com.example.hotel_booking.models.rooms.Room;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BookingFacade {
 
     private RoomBookingService roomBookingService;

@@ -2,10 +2,12 @@ package com.example.hotel_booking.models.service;
 
 import com.example.hotel_booking.models.rooms.Room;
 import com.example.hotel_booking.repository.RoomRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class RoomService {
 
     private final RoomRepository roomRepository;

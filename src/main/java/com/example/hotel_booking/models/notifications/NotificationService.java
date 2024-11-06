@@ -1,8 +1,11 @@
 package com.example.hotel_booking.models.notifications;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.ArrayList;
 
+@Service
 public class NotificationService {
     private List<Observer> observers = new ArrayList<>();
 

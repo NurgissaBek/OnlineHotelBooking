@@ -1,8 +1,10 @@
 package com.example.hotel_booking.models.service;
 
 import com.example.hotel_booking.models.User;
-import com.example.hotel_booking.repository.UserRepository;;
+import com.example.hotel_booking.repository.UserRepository;
+import org.springframework.stereotype.Service;;
 
+@Service
 public class UserService {
     private UserRepository userRepository;
 

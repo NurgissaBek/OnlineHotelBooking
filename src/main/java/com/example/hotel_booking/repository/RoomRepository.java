@@ -3,11 +3,12 @@ package com.example.hotel_booking.repository;
 import com.example.hotel_booking.models.rooms.Room;
 import com.example.hotel_booking.models.rooms.RoomFactory;
 import com.example.hotel_booking.util.DatabaseConnectionManager;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class RoomRepository {
 
     private Connection connection = DatabaseConnectionManager.getInstance().getConnection();
