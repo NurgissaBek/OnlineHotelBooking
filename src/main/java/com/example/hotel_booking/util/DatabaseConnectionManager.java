@@ -1,3 +1,4 @@
+// DatabaseConnectionManager.java
 package com.example.hotel_booking.util;
 
 import java.sql.Connection;
@@ -8,7 +9,7 @@ public class DatabaseConnectionManager {
     private static volatile DatabaseConnectionManager instance;
     private Connection connection;
 
-    private DatabaseConnectionManager(){
+    private DatabaseConnectionManager() {
         try {
             String url = "jdbc:postgresql://localhost:5432/OnlineHotelBooking";
             String user = "postgres";
@@ -20,9 +21,9 @@ public class DatabaseConnectionManager {
     }
 
     public static DatabaseConnectionManager getInstance() {
-        if (instance == null) {  // First check (no locking)
+        if (instance == null) {
             synchronized (DatabaseConnectionManager.class) {
-                if (instance == null) {  // Second check (with locking)
+                if (instance == null) {
                     instance = new DatabaseConnectionManager();
                 }
             }

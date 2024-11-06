@@ -1,9 +1,12 @@
 package com.example.hotel_booking.models.service;
 
 import com.example.hotel_booking.models.rooms.Room;
-import com.example.hotel_booking.models.repository.RoomRepository;
+import com.example.hotel_booking.repository.RoomRepository;
+
+import java.util.List;
 
 public class RoomBookingService {
+
     private RoomRepository roomRepository;
 
     public RoomBookingService(RoomRepository roomRepository) {
@@ -11,21 +14,26 @@ public class RoomBookingService {
     }
 
     public Room findRoom(String roomType) {
-        for (Room room : roomRepository.getAllRooms()) {
-            if (room.getType().equalsIgnoreCase(roomType) && !room.isBooked()) {
-                room.setBooked(true); // Mark the room as booked
+        List<Room> rooms = roomRepository.findAllRooms();
+        for (Room room : rooms) {
+            if (room.getRoomType().equalsIgnoreCase(roomType) && room.isAvailable()) {
+                room.book();
+                roomRepository.updateRoomAvailability(room.getRoomId(), false);
                 return room;
             }
         }
         return null;
     }
 
-    public boolean cancelBooking(String roomType) {
-        for (Room room : roomRepository.getAllRooms()) {
-            if (room.getType().equalsIgnoreCase(roomType) && room.isBooked()) {
-                room.setBooked(false); // Unmark the room as booked
-                return true;
-            }
+    public boolean cancelBooking(int roomId) {
+        Room room = roomRepository.findAllRooms().stream()
+                .filter(r -> r.getRoomId() == roomId)
+                .findFirst()
+                .orElse(null);
+        if (room != null && !room.isAvailable()) {
+            room.cancel();
+            roomRepository.updateRoomAvailability(roomId, true);
+            return true;
         }
         return false;
     }

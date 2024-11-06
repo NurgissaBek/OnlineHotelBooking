@@ -1,9 +1,11 @@
 package com.example.hotel_booking.models.service;
 
-import com.example.hotel_booking.models.payments.PaymentStrategy;
 import com.example.hotel_booking.models.notifications.NotificationService;
+import com.example.hotel_booking.models.payments.PaymentStrategy;
+import com.example.hotel_booking.models.rooms.Room;
 
 public class BookingFacade {
+
     private RoomBookingService roomBookingService;
     private NotificationService notificationService;
 
@@ -16,7 +18,7 @@ public class BookingFacade {
         Room room = roomBookingService.findRoom(roomType);
         if (room != null) {
             paymentMethod.pay(room.getCost());
-            notificationService.notify(username, "Booking confirmed for " + room.getDescription());
+            notificationService.notifyObservers(username, "Booking confirmed for " + room.getDescription());
             return "Booking confirmed for " + room.getDescription();
         }
         return "Room not available.";
