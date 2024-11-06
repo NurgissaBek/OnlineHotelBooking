@@ -1,7 +1,7 @@
 package com.example.hotel_booking.models.service;
 
-import com.example.hotel_booking.models.users.User;
-import com.example.hotel_booking.models.repository.UserRepository;;
+import com.example.hotel_booking.models.User;
+import com.example.hotel_booking.repository.UserRepository;;
 
 public class UserService {
     private UserRepository userRepository;
@@ -21,7 +21,7 @@ public class UserService {
 
     public boolean authenticateUser(String username, String password) {
         User user = findUserByUsername(username);
-        return user != null && user.getPassword().equals(password);
+        return user != null && user.getPasswordHash().equals(password);
     }
 
     public void registerUser(User user) {
