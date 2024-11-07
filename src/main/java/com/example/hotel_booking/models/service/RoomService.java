@@ -16,11 +16,17 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
-    // Fetch all available rooms
     public List<Room> getAvailableRooms() {
-        // Filter rooms to only include available ones
         return roomRepository.findAllRooms().stream()
-                .filter(Room::isAvailable) // Check availability of each room
+                .filter(Room::isAvailable)
                 .collect(Collectors.toList());
+    }
+
+    public void addRoom(Room room) {
+        roomRepository.save(room);
+    }
+
+    public boolean removeRoom(int roomId) {
+        return roomRepository.deleteRoomById(roomId);
     }
 }

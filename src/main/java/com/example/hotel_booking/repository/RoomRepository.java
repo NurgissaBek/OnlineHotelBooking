@@ -47,4 +47,31 @@ public class RoomRepository {
             e.printStackTrace();
         }
     }
+
+    public void save(Room room) {
+        String query = "INSERT INTO rooms_table (room_type, price_per_night, is_available, capacity) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, room.getRoomType());
+            pstmt.setDouble(2, room.getPricePerNight());
+            pstmt.setBoolean(3, room.isAvailable());
+            pstmt.setInt(4, room.getCapacity());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error saving room to database", e);
+        }
+    }
+
+    public boolean deleteRoomById(int roomId) {
+        String query = "DELETE FROM rooms_table WHERE room_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setInt(1, roomId);
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error deleting room from database", e);
+        }
+    }
+
 }
