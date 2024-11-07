@@ -24,7 +24,7 @@ public class RoomRepository {
             while (rs.next()) {
                 Room room = roomFactory.createRoom(rs.getString("room_type"));
                 if (room != null) {
-                    room.setRoomId(rs.getInt("room_id"));
+                    room.setRoomId(rs.getInt("rooms_id"));
                     room.setPricePerNight(rs.getDouble("price_per_night"));
                     room.setAvailable(rs.getBoolean("is_available"));
                     room.setCapacity(rs.getInt("capacity"));

@@ -6,18 +6,19 @@
     <script>
         async function viewRooms() {
             try {
-                const response = await fetch('/api/bookings/rooms');
+                const response = await fetch('/user/rooms?username=currentUser');
                 const rooms = await response.json();
 
                 let roomList = document.getElementById('room-list');
-                roomList.innerHTML = '';
+                roomList.innerHTML = ''; // Очищаем список перед добавлением элементов
                 rooms.forEach(room => {
-                    roomList.innerHTML += `<li>${room.type} - $${room.cost}</li>`;
+                    roomList.innerHTML += `<li>${room.roomType} - $${room.pricePerNight}</li>, Capacity: ${room.capacity}</li>`;
                 });
             } catch (error) {
                 alert('Failed to load rooms');
             }
         }
+
 
         async function bookRoom() {
             const roomType = document.getElementById('room-type').value;
